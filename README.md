@@ -1,6 +1,6 @@
 # myFlix App 
 
-This repository contains the code for a React based application - myFlix. This app allows users to explore a movie database, view movie details, manage favorites, and interact with user profiles through a responsive interface.
+This repository contains the code for the client side of a React based application - myFlix. This app allows users to explore a movie database, view movie details, manage favorites, and interact with user profiles through a responsive interface.
 
 ---
 
