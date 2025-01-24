@@ -1,4 +1,17 @@
 .my-flix {
   color: #4682b4;
 }
+
+.card {
+  color: #000;
+  text-align: left;
+  background-color: #add8e6;
+  width: 40%;
+  margin: auto;
+  padding: 20px;
+}
+
+.button {
+  width: 100px;
+}
 /*# sourceMappingURL=index.2212206d.css.map */
