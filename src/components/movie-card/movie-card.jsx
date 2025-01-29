@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import Card from "react-bootstrap/Card";
+
 
 const MovieCard = ({movie,onMovieClick}) => {  
   const buttonStyle = {
@@ -11,11 +13,14 @@ const MovieCard = ({movie,onMovieClick}) => {
     margin:'auto'
   };
   return (
-    <div className='card' onClick={()=>{onMovieClick(movie)}} >
-        <div className='card-body'>
+    <Card onClick={()=>{onMovieClick(movie)}} style={{ width: '18rem' }}>
+       <Card.Img variant="top" src={movie.image} />
+        <Card.Body>
+          <Card.Title>
             {movie.title}
-        </div>      
-    </div>
+          </Card.Title>          
+        </Card.Body>      
+    </Card>
   )
 }
 
