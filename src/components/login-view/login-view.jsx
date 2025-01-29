@@ -1,4 +1,9 @@
 import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
 
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
@@ -36,27 +41,44 @@ export const LoginView = ({ onLoggedIn }) => {
         });
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+  return (    
+    <Form onSubmit={handleSubmit}>
+      <Row>
+        <h3>
+          Login:
+        </h3>        
+      </Row>
+      <Row>        
+        <Col>
+        <Form.Group controlId="formUsername">
+          <Form.Label>
+            Username: 
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </Form.Label>
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group controlId="formPassword">
+          <Form.Label>
+            Password: 
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </Form.Label>
+          </Form.Group>
+        </Col>        
+        <Col>
+          <Button variant="primary" type="submit" className="submitButton">Submit</Button>
+        </Col>        
+      </Row>
+    </Form>
   );
 };

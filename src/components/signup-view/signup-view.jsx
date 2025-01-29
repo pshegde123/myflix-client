@@ -1,4 +1,8 @@
 import{ useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");
@@ -33,45 +37,68 @@ export const SignupView = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          minLength="3"
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Email:
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Birthday:
-        <input
-          type="date"
-          value={birthday}
-          onChange={(e) => setBirthday(e.target.value)}
-          required
-        />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+    <Form onSubmit={handleSubmit}>
+      <Row>
+        <h3>Sign-Up:</h3>
+      </Row>
+      <Row>
+        <Col md={6}>
+          <Form.Group controlId="formUsername">
+          <Form.Label>
+            Username:
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              minLength="3"
+            />
+          </Form.Label>
+        </Form.Group>
+        </Col>
+        <Col md={6}>
+          <Form.Group controlId="formPassword">
+          <Form.Label>
+            Password:
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </Form.Label>
+        </Form.Group>
+        </Col>
+        <Col md={6}>
+          <Form.Group controlId="formEmail">
+            <Form.Label>
+              Email:    
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </Form.Label>
+          </Form.Group>
+        </Col>
+        <Col md={6}>
+            <Form.Group controlId="formBirthdate">
+              <Form.Label>
+                Birthday:
+                <input
+                  type="date"
+                  value={birthday}
+                  onChange={(e) => setBirthday(e.target.value)}
+                  required
+                />
+              </Form.Label>
+          </Form.Group>
+          </Col>
+      </Row>            
+      <Col md={12}>
+        <Button variant="primary" type="submit">Submit</Button>
+      </Col>           
+    </Form>
   );
 };
