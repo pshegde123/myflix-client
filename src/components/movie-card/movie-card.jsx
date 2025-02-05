@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 
-const MovieCard = ({movie,onMovieClick}) => {  
+const MovieCard = ({movie}) => {  
   const buttonStyle = {
     backgroundColor: 'grey',    
     color:'white',
@@ -14,8 +14,7 @@ const MovieCard = ({movie,onMovieClick}) => {
   };
   return (
     <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
-      <Card onClick={()=>{      
-        onMovieClick(movie)}} style={{ width: '18rem' }}>
+      <Card style={{ width: '18rem' }}>
         <Card.Img variant="top" src={movie.image} />
           <Card.Body>
             <Card.Title>
