@@ -8,7 +8,9 @@ export const ProfileView = ({ movies }) => {
   const localUser = JSON.parse(localStorage.getItem("user"));
 
   const favMovies = movies.filter((movie) => {
-    return localUser.FavoriteMovies.includes(movie._id);
+    //console.log(movie);
+    //console.log(localUser);
+    return localUser.FavoriteMovies.includes(movie.id);
   });
 
   const [username, setUsername] = useState(localUser.Username || "");
@@ -73,6 +75,31 @@ export const ProfileView = ({ movies }) => {
     }
   };
 
+  const handleRemoveFromFavorite = (movieid) => {   
+    console.log("movieid = ",movieid);
+
+    const data = {
+      Username: username,            
+      Movieid: movieid
+    };
+
+    fetch(`https://myflix-ph-1e58a204d843.herokuapp.com/users/${username}/movies/${movieid}`, {
+      method: "DELETE",
+      body: JSON.stringify(data),
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      }
+    }).then((response) => {
+      if (response.ok) {
+        alert("Removed From Favorites");
+        window.location.reload();
+      } else {
+        alert("Failed To Remove From Favorites");
+      }
+    });
+  };
+
   return (        
     <div className="container">
     <Form onSubmit={handleSubmit}>
@@ -126,13 +153,18 @@ export const ProfileView = ({ movies }) => {
     <Row className="justify-content-center">
         <h3>Favorite Movies</h3>
         <div className="favorite-movies">
-            {favMovies.length > 0 ? (
-            favMovies.map((movie) => (
-                <MovieCard key={movie._id} movie={movie} />
-            ))
-            ) : (
-            <p>You have no favorite movies.</p>
-            )}
+          <Row>           
+                {favMovies.length > 0 ? (
+                favMovies.map((movie) => (
+                  <Col md={4} key={movie.id}>
+                    <MovieCard key={movie.id} movie={movie} />                    
+                    <Button key={movie._id} size="sm" onClick={() => {handleRemoveFromFavorite(movie.id)}}> Remove From Favorite</Button>                    
+                  </Col>
+                ))
+                ) : (
+                <p>You have no favorite movies.</p>
+                )}            
+          </Row>            
         </div>
     </Row>
     <Row className="mt-4 justify-content-end">                                       

@@ -19,7 +19,7 @@ const MovieCard = ({movie}) => {
           <Card.Body>
             <Card.Title>
               {movie.title}
-            </Card.Title>          
+            </Card.Title>                   
           </Card.Body>      
       </Card>
     </Link>
