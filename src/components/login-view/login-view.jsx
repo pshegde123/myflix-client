@@ -27,7 +27,7 @@ export const LoginView = ({ onLoggedIn }) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Login response: ", data);
+          //console.log("Login response: ", data);
           if (data.user) {
             localStorage.setItem("user", JSON.stringify(data.user));
             localStorage.setItem("token", data.token);            
@@ -42,14 +42,14 @@ export const LoginView = ({ onLoggedIn }) => {
   };
 
   return (    
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} className="mt-4">
       <Row>
         <h3>
           Login:
         </h3>        
       </Row>
       <Row>        
-        <Col>
+        <Col className="lg-">
         <Form.Group controlId="formUsername">
           <Form.Label>
             Username: 
@@ -75,7 +75,7 @@ export const LoginView = ({ onLoggedIn }) => {
           </Form.Label>
           </Form.Group>
         </Col>        
-        <Col>
+        <Col className="md-6">
           <Button variant="primary" type="submit" className="submitButton">Submit</Button>
         </Col>        
       </Row>
