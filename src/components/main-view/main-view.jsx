@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import MovieCard from '../movie-card/movie-card';
 import MovieView from '../movie-view/movie-view';
+import ProfileView from '../user-profile/user-profile';
 import { LoginView } from '../login-view/login-view';
 import { SignupView } from '../signup-view/signup-view';
 import Row from "react-bootstrap/Row";
@@ -28,7 +29,7 @@ const MainView = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);          
+          //console.log(data);          
             const moviesFromApi = data.map((doc) => {
                 return {
                   id: doc._id,
@@ -108,7 +109,12 @@ const MainView = () => {
               <>                   
                 <MovieView movies={movies}/>              
               </>
-            }/>               
+            }/>         
+             <Route path="/users/:userid" element={
+              <>                   
+                <ProfileView movies={movies}/>              
+              </>
+            }/>                            
           </Routes>          
         </Row>
       </BrowserRouter>
