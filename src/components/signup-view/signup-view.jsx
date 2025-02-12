@@ -48,6 +48,7 @@ export const SignupView = () => {
             Username:
             <input
               type="text"
+              className="w-100"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
@@ -55,50 +56,49 @@ export const SignupView = () => {
             />
           </Form.Label>
         </Form.Group>
-        </Col>
-        <Col md={6}>
+        
           <Form.Group controlId="formPassword">
           <Form.Label>
             Password:
             <input
               type="password"
+              className="w-100"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </Form.Label>
         </Form.Group>
-        </Col>
-        <Col md={6}>
+        
           <Form.Group controlId="formEmail">
             <Form.Label>
               Email:    
               <input
                 type="email"
+                className="w-100"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </Form.Label>
           </Form.Group>
-        </Col>
-        <Col md={6}>
+        
             <Form.Group controlId="formBirthdate">
               <Form.Label>
                 Birthday:
                 <input
                   type="date"
+                  className="w-100"
                   value={birthday}
                   onChange={(e) => setBirthday(e.target.value)}
                   required
                 />
               </Form.Label>
           </Form.Group>
+          <Button variant="primary" type="submit mt-4">Submit</Button>
           </Col>
       </Row>            
-      <Col md={12}>
-        <Button variant="primary" type="submit">Submit</Button>
-      </Col>           
+            
     </Form>
   );
 };
