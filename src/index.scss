@@ -1,5 +1,7 @@
 @import '~bootstrap/scss/bootstrap.scss';
-
+.container {
+  border: 5px double;
+}
 .button{
   width: 100px;
 }

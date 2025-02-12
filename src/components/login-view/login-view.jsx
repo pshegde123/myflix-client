@@ -49,35 +49,35 @@ export const LoginView = ({ onLoggedIn }) => {
         </h3>        
       </Row>
       <Row>        
-        <Col className="lg-">
+        <Col  className="md-6">
         <Form.Group controlId="formUsername">
           <Form.Label>
             Username: 
             <input
               type="text"
+              className="w-100"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
           </Form.Label>
           </Form.Group>
-        </Col>
-        <Col>
+       
           <Form.Group controlId="formPassword">
           <Form.Label>
             Password: 
             <input
               type="password"
+              className="w-100"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </Form.Label>
           </Form.Group>
+          <Button variant="primary" type="submit" className="submitButton mt-2">Submit</Button>
         </Col>        
-        <Col className="md-6">
-          <Button variant="primary" type="submit" className="submitButton">Submit</Button>
-        </Col>        
+          
       </Row>
     </Form>
   );
