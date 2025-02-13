@@ -49,13 +49,13 @@ export const LoginView = ({ onLoggedIn }) => {
         </h3>        
       </Row>
       <Row>        
-        <Col  className="md-6">
+        <Col  className="md-6 border border-5 justify-content-center">
         <Form.Group controlId="formUsername">
-          <Form.Label>
+          <Form.Label className="w-100">
             Username: 
             <input
-              type="text"
-              className="w-100"
+              type="text"   
+              className="w-100"           
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
@@ -64,7 +64,7 @@ export const LoginView = ({ onLoggedIn }) => {
           </Form.Group>
        
           <Form.Group controlId="formPassword">
-          <Form.Label>
+          <Form.Label className="w-100">
             Password: 
             <input
               type="password"
@@ -75,7 +75,9 @@ export const LoginView = ({ onLoggedIn }) => {
             />
           </Form.Label>
           </Form.Group>
-          <Button variant="primary" type="submit" className="submitButton mt-2">Submit</Button>
+          <div>
+            <Button variant="primary" type="submit" className="submitButton w-100">Submit</Button>
+          </div>          
         </Col>        
           
       </Row>
