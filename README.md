@@ -1,6 +1,6 @@
 # myFlix App 
 
-This project is a part of [CareerFoundry](https://careerfoundry.com/) course.
+This project is part of [CareerFoundry](https://careerfoundry.com/) coursework.
 This repository contains the code for the client side of a React based single-page application - myFlix. 
 This app allows users to explore a movie database(custom MongoDB database) , view movie details, manage favorites, and interact with user profiles through a responsive interface.
 The server-side code is avaible at [myflix_server](https://github.com/pshegde123/cf_myflix_server).
