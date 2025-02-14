@@ -36,9 +36,9 @@ Follow these steps to run the myFlix Client locally:
    npm install
    ```
 
-3. **Start the development server**:
+3. **Run the application using Parcel**:
    ```bash
-   npm start
+   parcel src/index.html
    ```
    The application will be available at `http://localhost:1234/`.
 ---
