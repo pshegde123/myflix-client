@@ -13167,4 +13167,12 @@ textarea.form-control-lg {
   margin-top: 20px;
   margin-bottom: 40px;
 }
+
+.footer {
+  color: #fff;
+  background-color: #000;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
 /*# sourceMappingURL=index.2212206d.css.map */

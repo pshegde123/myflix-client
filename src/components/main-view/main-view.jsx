@@ -116,7 +116,7 @@ const MainView = () => {
               </>
             }/>                            
           </Routes>          
-        </Row>
+        </Row>        
       </BrowserRouter>
      )
 }

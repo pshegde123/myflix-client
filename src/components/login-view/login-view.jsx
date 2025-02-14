@@ -4,7 +4,6 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -41,7 +40,7 @@ export const LoginView = ({ onLoggedIn }) => {
         });
   };
 
-  return (    
+  return (     
     <Form onSubmit={handleSubmit} className="mt-4">
       <Row>
         <h3>
@@ -81,6 +80,6 @@ export const LoginView = ({ onLoggedIn }) => {
         </Col>        
           
       </Row>
-    </Form>
+    </Form>    
   );
 };

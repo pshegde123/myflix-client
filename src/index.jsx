@@ -11,7 +11,7 @@ const MyFlixApplication = () => {
     <Container className="min-vh-100" style={{
       marginTop:"40px"      
     }}>
-      <MainView/>
+      <MainView/>     
     </Container>    
   );
 };

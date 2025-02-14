@@ -35,23 +35,35 @@ const MovieView = ({movies}) => {
   };
 
   return (   
-      <Card className="h-100">          
-            <Card.Title>{movie.title}</Card.Title>     
-            <Card.Img variant="top" src={movie.image}/>     
-              <Card.Body>           
-                <Card.Text>Plot: {movie.description}</Card.Text>
-                <Card.Text>Genre Name: {movie.genre.name}</Card.Text>
-                <Card.Text>Director Name: {movie.director.name}</Card.Text>
-                <Row>
-                  <Col className="md-3">
-                    <Button onClick={handleAddToFavorite} size="sm">Add To Favorite</Button>  
-                  </Col>                                     
-                </Row>                                
-              </Card.Body>
-            <Link to="/movies">
-              <Button className='button' >Back</Button>     
-            </Link>            
+    <>
+      <Card className='mt-4'>          
+            <Card.Header className="text-center bg-warning" style={{fontSize:"32px"}}>{movie.title}</Card.Header>  
+            <Row>
+                <Col>
+                <div className='d-flex flex-column'>
+                  <div className='d-flex justify-content-center'>
+                    <Card.Img variant="top" src={movie.image} style={{minHeigh:"200px" , width:"50%"}} className='mt-2'/>                                                     
+                  </div>              
+                  <div className='mt-2 d-flex justify-content-center'>
+                    <Button onClick={handleAddToFavorite}  className='bg-danger'>Add To Favorite</Button> 
+                  </div>              
+                </div>          
+                </Col>   
+              <Col>
+                <Card.Body>           
+                  <Card.Text>Plot: {movie.description}</Card.Text>
+                  <Card.Text>Genre Name: {movie.genre.name}</Card.Text>
+                  <Card.Text>Director Name: {movie.director.name}</Card.Text>                                            
+                </Card.Body>
+              </Col>   
+            </Row>                                           
       </Card>    
+      <div className='d-flex justify-content-end'>
+        <Link to="/movies">
+          <Button className='button mt-4' >Back</Button>     
+        </Link>     
+      </div>
+    </>
   );  
 }
 

@@ -103,8 +103,9 @@ export const ProfileView = ({ movies }) => {
   return (        
     <div className="container">
     <Form onSubmit={handleSubmit}>
-        <Row className="justify-content-center mt-2">                     
-          <Col>
+      <h3 className="mt-2 bg-secondary text-center p-2">User Details:</h3>     
+        <Row>                          
+          <Col className="justify-content-center">
             <Form.Group as={Col} md="6" controlId="formUsername">
               <Form.Label className="Display-1">Username:</Form.Label>
               <Form.Control
@@ -123,7 +124,6 @@ export const ProfileView = ({ movies }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-
         <Form.Group as={Col} md="6" controlId="formEmail">
           <Form.Label>Email:</Form.Label>
           <Form.Control
@@ -133,7 +133,6 @@ export const ProfileView = ({ movies }) => {
             required
           />
         </Form.Group>
-
         <Form.Group as={Col} md="6" controlId="formBdate">
           <Form.Label>Birthday:</Form.Label>
           <Form.Control
@@ -150,15 +149,16 @@ export const ProfileView = ({ movies }) => {
             <Button variant="primary" type="submit">Update Profile</Button>            
         </Col>        
     </Row>      
-    <Row className="justify-content-center">
-        <h3>Favorite Movies</h3>
+    <hr/>
+    <Row className="justify-content-center mb-2">
+        <h3 className="mt-2 bg-secondary text-center p-2">Favorite Movies</h3>             
         <div className="favorite-movies">
           <Row>           
                 {favMovies.length > 0 ? (
                 favMovies.map((movie) => (
                   <Col md={4} key={movie.id}>
                     <MovieCard key={movie.id} movie={movie} />                    
-                    <Button key={movie._id} size="sm" onClick={() => {handleRemoveFromFavorite(movie.id)}}> Remove From Favorite</Button>                    
+                    <Button key={movie._id} size="sm" className="mt-2" onClick={() => {handleRemoveFromFavorite(movie.id)}}> Remove From Favorite</Button>                    
                   </Col>
                 ))
                 ) : (
@@ -166,13 +166,14 @@ export const ProfileView = ({ movies }) => {
                 )}            
           </Row>            
         </div>
+    <hr/>
     </Row>
-    <Row className="mt-4 justify-content-end">                                       
-        <Col className="md-6"/>   
-        <Col className="md-6">           
-            <Button variant="danger" onClick={handleDelete}>Delete User</Button>
-        </Col>        
-    </Row>      
+      <div className="mt-4 mb-4">
+        <h3 className="mt-2 bg-secondary text-center p-2">User Removal</h3>  
+        <Row className="justify-content-center">                                                     
+              <Button  variant="danger" className="w-50" onClick={handleDelete}>Click here to remove user</Button>        
+        </Row>        
+      </div>    
     </Form>
     </div>
   );
