@@ -1,7 +1,8 @@
 # myFlix App 
-
-This repository contains the code for the client side of a React based single-page application - myFlix. This app allows users to explore a movie database, view movie details, manage favorites, and interact with user profiles through a responsive interface.
-
+##### This project is part of [CareerFoundry](https://careerfoundry.com/) coursework.
+##### This repository contains the code for the client side of a React based single-page application - myFlix. 
+##### This app allows users to explore a movie database(custom MongoDB database) , view movie details, manage favorites, and interact with user profiles through a responsive interface.
+##### The server-side code is avaible at [myflix_server](https://github.com/pshegde123/cf_myflix_server).
 ---
 
 ## Features
@@ -36,9 +37,9 @@ Follow these steps to run the myFlix Client locally:
    npm install
    ```
 
-3. **Start the development server**:
+3. **Run the application using Parcel**:
    ```bash
-   npm start
+   parcel src/index.html
    ```
    The application will be available at `http://localhost:1234/`.
 ---
