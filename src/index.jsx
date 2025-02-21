@@ -9,7 +9,8 @@ import "./index.scss";
 const MyFlixApplication = () => {
   return (
     <Container className="min-vh-100" style={{
-      marginTop:"40px"      
+      marginTop:"40px",      
+      backgroundImage:'linear-gradient(to right, #ccd0ff 20%, #ffcac9 100%)'
     }}>
       <MainView/>     
     </Container>    

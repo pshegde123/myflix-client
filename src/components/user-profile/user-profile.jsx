@@ -1,34 +1,71 @@
-import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
-import MovieCard from "../movie-card/movie-card";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { useState,useEffect } from "react";
+import { Button, Form,Modal } from "react-bootstrap";
+import {Card,Row,Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-export const ProfileView = ({ movies }) => {
-  const localUser = JSON.parse(localStorage.getItem("user"));
+function MyVerticallyCenteredModal(props) {  
+  return (
+    <Modal
+      {...props}
+      size="sm"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Success
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>        
+        <p>
+          User deleted successfully
+        </p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 
-  const favMovies = movies.filter((movie) => {
-    //console.log(movie);
-    //console.log(localUser);
-    return localUser.FavoriteMovies.includes(movie.id);
-  });
-
-  const [username, setUsername] = useState(localUser.Username || "");
+export const ProfileView = ({ movies,user,setUser}) => {     
+  //const localUser = JSON.parse(localStorage.getItem("user")); 
+  const [username, setUsername] = useState(user.Username);
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState(localUser.Email || "");
-  const [birthday, setBirthday] = useState(localUser.Birthday || "01/01/0001");
+  const [email, setEmail] = useState(user.Email);
+  const [birthday, setBirthday] = useState(user.Birthday);
+  const [userFavs, setUserFavs] = useState([]);   
+  const [modalShow, setModalShow] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(true);      
+
+  useEffect(() => {    
+    fetch(`https://myflix-ph-1e58a204d843.herokuapp.com/users/${user.Username}`, {     
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      }
+    }).then((response) => response.json())
+    .then((data) => {          
+        //console.log("data=",data);     
+
+        // Populate favoriteMovies				
+				const favoriteMoviesList = movies.filter((movie) =>
+					data.FavoriteMovies.some((fav) => String(fav) === String(movie.id))
+				);     	       
+        setUserFavs(favoriteMoviesList);            
+    });  
+  },[movies,user]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const data = {
-      Username: username,
-      ...(password && { Password: password }),  // Only include the password if it's changed
-      Email: email,
-      Birthday: birthday
+      Username: user.username,
+      ...(password && { Password: user.password }),  // Only include the password if it's changed
+      Email: user.email,
+      Birthday: user.birthday
     };
 
-    fetch(`https://myflix-ph-1e58a204d843.herokuapp.com/users/${localUser.Username}`, {
+    fetch(`https://myflix-ph-1e58a204d843.herokuapp.com/users/${user.Username}`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {
@@ -38,7 +75,8 @@ export const ProfileView = ({ movies }) => {
     }).then((response) => {
       if (response.ok) {
         alert("Profile updated successfully");
-        response.json().then((updatedUser) => {
+        response.json().then((updatedUser) => {               
+          setUser(updatedUser);
           // Update localStorage with the new user details
           localStorage.setItem("user", JSON.stringify(updatedUser));
           window.location.reload();  // Optionally reload the page
@@ -47,16 +85,14 @@ export const ProfileView = ({ movies }) => {
         alert("Profile update failed");
       }
     });
-  };
-
+  };  
   const handleDelete = () => {    
-    if(window.confirm("Are your sure you want to delete your account? This action cannot be undone.")){
-      
+    if(window.confirm("Are your sure you want to delete your account? This action cannot be undone.")){      
       const data = {
         Username: username     
       };
   
-      fetch(`https://myflix-ph-1e58a204d843.herokuapp.com/users/${localUser.Username}`, {
+      fetch(`https://myflix-ph-1e58a204d843.herokuapp.com/users/${user.Username}`, {
         method: "DELETE",
         body: JSON.stringify(data),
         headers: {
@@ -65,7 +101,8 @@ export const ProfileView = ({ movies }) => {
         }
       }).then((response) => {        
         if (response.ok) {          
-          alert("Profile deleted successfully");
+          //alert("Profile deleted successfully");
+          setModalShow(true);
           localStorage.clear();           
           window.location.href = "/login";  
         } else {
@@ -73,11 +110,8 @@ export const ProfileView = ({ movies }) => {
         }
       });  
     }
-  };
-
-  const handleRemoveFromFavorite = (movieid) => {   
-    console.log("movieid = ",movieid);
-
+  };  
+  const handleRemoveFromFavorite = (movieid) => {       
     const data = {
       Username: username,            
       Movieid: movieid
@@ -92,18 +126,32 @@ export const ProfileView = ({ movies }) => {
       }
     }).then((response) => {
       if (response.ok) {
-        alert("Removed From Favorites");
+        fetch(`https://myflix-ph-1e58a204d843.herokuapp.com/users/${user.Username}`, {     
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+          }
+        }).then((response) => (response.json))
+        .then((data) =>{          
+          //console.log("data = ",data);
+          // Populate favoriteMovies				
+          const favoriteMoviesList = movies.filter((movie) =>
+            user.FavoriteMovies.some((fav) => String(fav) === String(movie.id))
+          );               
+          setUserFavs(favoriteMoviesList);      
+        });        
+        alert("Removed From Favorites");                      
         window.location.reload();
       } else {
         alert("Failed To Remove From Favorites");
       }
     });
-  };
-
-  return (        
+  }; 
+  
+  return (            
     <div className="container">
-    <Form onSubmit={handleSubmit}>
-      <h3 className="mt-2 bg-secondary text-center p-2">User Details:</h3>     
+    <Form onSubmit={handleSubmit}>  
+    <h3 className="mt-2 bg-secondary text-center p-2">User Details:</h3>     
         <Row>                          
           <Col className="justify-content-center">
             <Form.Group as={Col} md="6" controlId="formUsername">
@@ -149,32 +197,58 @@ export const ProfileView = ({ movies }) => {
             <Button variant="primary" type="submit">Update Profile</Button>            
         </Col>        
     </Row>      
-    <hr/>
-    <Row className="justify-content-center mb-2">
-        <h3 className="mt-2 bg-secondary text-center p-2">Favorite Movies</h3>             
-        <div className="favorite-movies">
-          <Row>           
-                {favMovies.length > 0 ? (
-                favMovies.map((movie) => (
-                  <Col md={4} key={movie.id}>
-                    <MovieCard key={movie.id} movie={movie} />                    
-                    <Button key={movie._id} size="sm" className="mt-2" onClick={() => {handleRemoveFromFavorite(movie.id)}}> Remove From Favorite</Button>                    
-                  </Col>
-                ))
-                ) : (
-                <p>You have no favorite movies.</p>
-                )}            
-          </Row>            
-        </div>
-    <hr/>
-    </Row>
+    <hr/>  
+      <Row className="justify-content-center mb-2">
+          <h3 className="mt-2 bg-secondary text-center p-2">Favorite Movies</h3>             
+          <div className="favorite-movies">
+            <Row>              
+                  {userFavs.length > 0 ? (
+                  userFavs.map((movie) => (
+                    <Col key={movie.id}
+                          xs={12}
+                          sm={6}
+                          md={4}
+                          lg={3}>
+                      <Card className='h-100'>
+                        <div className='image-container'>
+                          <Card.Img
+                            variant='top'
+                            src={movie.image}
+                            alt={movie.title}
+                            loading='lazy'
+                          />
+                        </div>
+                        <Card.Body>
+                          <Card.Title>
+                            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+                          </Card.Title>
+                        </Card.Body>
+                        <Button                        
+                          variant='danger'
+                          onClick={() => handleRemoveFromFavorite(movie.id)}>-Favorite                     
+                        </Button>
+                      </Card>                                              
+                    </Col>  
+                  ))
+                  ) : (
+                  <p>You have no favorite movies.</p>
+                  )}            
+            </Row>            
+          </div>
+      <hr/>
+      </Row>
       <div className="mt-4 mb-4">
         <h3 className="mt-2 bg-secondary text-center p-2">User Removal</h3>  
         <Row className="justify-content-center">                                                     
-              <Button  variant="danger" className="w-50" onClick={handleDelete}>Click here to remove user</Button>        
+              <Button  variant="danger" className="w-25" onClick={()=>handleDelete()}>Click here to remove user</Button>        
         </Row>        
       </div>    
-    </Form>
+    </Form>   
+    <MyVerticallyCenteredModal
+      size="sm"
+      show={modalShow}
+      onHide={() => setModalShow(false)}
+      />
     </div>
   );
 };

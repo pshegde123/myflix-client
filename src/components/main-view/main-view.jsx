@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect, use } from 'react';
 import MovieCard from '../movie-card/movie-card';
 import MovieView from '../movie-view/movie-view';
 import ProfileView from '../user-profile/user-profile';
@@ -17,13 +17,14 @@ const MainView = () => {
   const [user, setUser] = useState(storedUser? storedUser : null);
   const [token, setToken] = useState(storedToken? storedToken : null);
   const [movies, setMovies] = useState([]);
-  
-    
+  const [favorites, setFavorites]=useState([]);
+ 
+
     useEffect(() => {
-      if (!token) {
+      if (!token || !user) {
         return;
-      }
-  
+      }        
+
       fetch("https://myflix-ph-1e58a204d843.herokuapp.com/movies", {
         headers: { Authorization: `Bearer ${token}` }
       })
@@ -48,9 +49,30 @@ const MainView = () => {
                   }                
                 };
               });
-              setMovies(moviesFromApi);               
+
+              // Fetch favourites
+              const favoritesResponse = fetch(
+                `https://myflix-ph-1e58a204d843.herokuapp.com/users/${user.Username}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${storedToken}`,
+                    'Content-Type': 'application/json',
+                  },
+                }
+              ).then((response) => response.json())
+              .then((data) => {                
+                //console.log(data);
+                const favoritesData = data;               
+                const favoritesList = Array.isArray(data.FavoriteMovies)
+                ? data.FavoriteMovies
+                : [];
+                //console.log("favoritesList = ",favoritesList);
+                setFavorites(Array.isArray(favoritesList) ? favoritesList : []);                
+              })              
+              setMovies(moviesFromApi);                             
         });
-    }, [token]);   
+    }, [token, user]);   
+    
 
      return(
       <BrowserRouter>        
@@ -96,10 +118,17 @@ const MainView = () => {
             }/>          
             <Route path="/movies" element={
                <div>                
-                <Row className='mt-4'>
-                  {movies.map((movie) => (            
+                <Row className='mt-4'>                                                      
+                  {movies.map((movie) => (                       
                         <Col key={movie.id} md={4} className="mb-5">
-                            <MovieCard  movie={movie}/>
+                            <MovieCard  
+                            movie={movie} 
+                            user={user}
+                            isFavorite = {                                                    
+                              favorites.some((fav) => {                                    
+                                return (fav.toString() === movie.id.toString()?true:false);                               
+                              })}                             
+                           />
                         </Col>                         
                   ))}
                   </Row>
@@ -112,7 +141,7 @@ const MainView = () => {
             }/>         
              <Route path="/users/:userid" element={
               <>                   
-                <ProfileView movies={movies}/>              
+                <ProfileView movies={movies} user={user} setUser={setUser}/>              
               </>
             }/>                            
           </Routes>          

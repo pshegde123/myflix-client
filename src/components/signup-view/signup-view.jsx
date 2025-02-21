@@ -1,11 +1,7 @@
 import{ useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Modal from "react-bootstrap/Modal";
+import {Button, Form, Row, Col, Modal} from "react-bootstrap";
 
-function MyVerticallyCenteredModal(props) {
+function ErrorModal(props) {
   return (
     <Modal
       {...props}
@@ -20,7 +16,7 @@ function MyVerticallyCenteredModal(props) {
       </Modal.Header>
       <Modal.Body>        
         <p>
-          User exists already
+          Username already exists.
         </p>
       </Modal.Body>
       <Modal.Footer>
@@ -35,8 +31,8 @@ export const SignupView = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
-  const [modalShow, setModalShow] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
+  
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -54,17 +50,18 @@ export const SignupView = () => {
         "Content-Type": "application/json"
       }
     }).then((response) => {
+      //console.log(response);
       if (response.ok) {
-        //alert("Signup successful");        
-        window.location.reload();
+        alert("Signup successful");           
+        window.location.href = '/login';
       } else {
-        //alert("Signup failed");            
-        setModalShow(true); 
+        //alert("Signup failed.");                   
+        setShowModal(true);
       }
     })
   };
 
-  return (
+  return (    
     <>
     <Form onSubmit={handleSubmit} className="mt-4">
       <Row>
@@ -110,8 +107,7 @@ export const SignupView = () => {
                 required
               />
             </Form.Label>
-          </Form.Group>
-        
+          </Form.Group>        
             <Form.Group controlId="formBirthdate">
               <Form.Label className="w-100">
                 Birthday:
@@ -129,12 +125,12 @@ export const SignupView = () => {
           </div>          
           </Col>
       </Row>                        
-    </Form>
-    <MyVerticallyCenteredModal
-     size="sm"
-     show={modalShow}
-     onHide={() => setModalShow(false)}
-   />
-    </>
+    </Form>  
+    <ErrorModal
+    size="sm"   
+    show={showModal}
+    onHide={() => setShowModal(false)}
+    />
+    </> 
   );
 };
