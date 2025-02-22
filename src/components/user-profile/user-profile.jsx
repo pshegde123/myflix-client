@@ -27,6 +27,30 @@ function MyVerticallyCenteredModal(props) {
     </Modal>
   );
 }
+function RemoveFavoriteModal(props) {  
+  return (
+    <Modal
+      {...props}
+      size="sm"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header className="bg-dark text-white" closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Success
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>        
+        <p className='text-center'>
+          Removed From Favorites
+        </p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 
 export const ProfileView = ({ movies,user,setUser}) => {     
   //const localUser = JSON.parse(localStorage.getItem("user")); 
@@ -36,6 +60,7 @@ export const ProfileView = ({ movies,user,setUser}) => {
   const [birthday, setBirthday] = useState(user.Birthday);
   const [userFavs, setUserFavs] = useState([]);   
   const [modalShow, setModalShow] = useState(false);
+  const [removeFavModal, setRemoveFavModal] = useState(false);  
   const [isFavorite, setIsFavorite] = useState(true);      
 
   useEffect(() => {    
@@ -57,13 +82,14 @@ export const ProfileView = ({ movies,user,setUser}) => {
   },[movies,user]);
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault();    
     const data = {
-      Username: user.username,
-      ...(password && { Password: user.password }),  // Only include the password if it's changed
-      Email: user.email,
-      Birthday: user.birthday
+      Username: username,
+      ...(password && { Password: password }),  // Only include the password if it's changed
+      Email: email,
+      Birthday: birthday
     };
+    //console.log(data);
 
     fetch(`https://myflix-ph-1e58a204d843.herokuapp.com/users/${user.Username}`, {
       method: "PUT",
@@ -140,7 +166,7 @@ export const ProfileView = ({ movies,user,setUser}) => {
           );               
           setUserFavs(favoriteMoviesList);      
         });        
-        alert("Removed From Favorites");                      
+        alert("Removed From Favorites");                              
         window.location.reload();
       } else {
         alert("Failed To Remove From Favorites");
@@ -247,6 +273,11 @@ export const ProfileView = ({ movies,user,setUser}) => {
     <MyVerticallyCenteredModal
       size="sm"
       show={modalShow}
+      onHide={() => setModalShow(false)}
+      />
+      <RemoveFavoriteModal
+      size="sm"
+      show={removeFavModal}
       onHide={() => setModalShow(false)}
       />
     </div>

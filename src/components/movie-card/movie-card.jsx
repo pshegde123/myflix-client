@@ -29,31 +29,6 @@ function MySuccessModal(props) {
   );
 }
 
-function MyRemovalModal(props) {  
-  return (
-    <Modal
-      {...props}
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header className="bg-dark text-white" closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Success
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>        
-        <p className='text-center'>
-          Removed From Favorites
-        </p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
-
 const MovieCard = ({movie,user,isFavorite}) => {      
   const [modalShow, setModalShow] = useState(false);  
   const [removeFav, setRemoveFav] = useState(false);  
@@ -73,6 +48,7 @@ const MovieCard = ({movie,user,isFavorite}) => {
     }).then((response) => {      
       if (response.ok) {
         alert("Added To Favorites");    
+        //setModalShow(true);
         window.location.reload();                 
       } else {
         alert("Failed To Add To Favorites");        
