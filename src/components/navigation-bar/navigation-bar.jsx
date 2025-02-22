@@ -1,4 +1,4 @@
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, Form,Row,Col,Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const NavigationBar = ({ user, onLoggedOut }) => {
@@ -31,7 +31,7 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
                 </Nav.Link>
                 <Nav.Link onClick={onLoggedOut}>Logout</Nav.Link>
               </>
-            )}
+            )}             
           </Nav>
         </Navbar.Collapse>
       </Container>

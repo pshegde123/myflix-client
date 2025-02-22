@@ -18,7 +18,7 @@ const MainView = () => {
   const [token, setToken] = useState(storedToken? storedToken : null);
   const [movies, setMovies] = useState([]);
   const [favorites, setFavorites]=useState([]);
- 
+  const [searchVal, setSearchVal] = useState('');
 
     useEffect(() => {
       if (!token || !user) {
@@ -73,6 +73,17 @@ const MainView = () => {
         });
     }, [token, user]);   
     
+    const handleInput = (e) => {
+      setSearchVal(e.target.value);      
+    }
+
+    const handleClearBtn = () => {
+      setSearchVal('');
+    }
+
+    const filteredMovies = movies.filter((movie) =>
+      movie.title.toLowerCase().includes(searchVal.toLowerCase())
+    );
 
      return(
       <BrowserRouter>        
@@ -117,20 +128,39 @@ const MainView = () => {
               </>                   
             }/>          
             <Route path="/movies" element={
-               <div>                
-                <Row className='mt-4'>                                                      
-                  {movies.map((movie) => (                       
-                        <Col key={movie.id} md={4} className="mb-5">
-                            <MovieCard  
-                            movie={movie} 
+               <div>    
+                <Row className='mt-4'>
+                  <Col md={4}/>
+                  <Col md={4} style={{display:'flex'}}>                  
+                      <input   
+                      onChange={handleInput}         
+                      className='rounded-pill '         
+                      value={searchVal}
+                      type="text" 
+                      name="movie-search" 
+                      id="movie-search" 
+                      placeholder="Search Movies"
+                      style={{width:'100%',height:'40px'}}
+                    />                            
+                    <Button size="sm" className='rounded-pill' onClick={() => handleClearBtn()}>Clear</Button>            
+                  </Col>
+                  <Col md={4}/>
+                </Row>            
+                <Row className='mt-4'>                         
+                    <>
+                      {filteredMovies.map((movie) => (
+                        <Col className="mb-5" key={movie.id} md={4}>
+                          <MovieCard 
+                            movie={movie}  
                             user={user}
                             isFavorite = {                                                    
                               favorites.some((fav) => {                                    
                                 return (fav.toString() === movie.id.toString()?true:false);                               
-                              })}                             
-                           />
-                        </Col>                         
-                  ))}
+                              })}                                      
+                          />
+                        </Col>  
+                      ))}                                      
+                    </>
                   </Row>
              </div>                   
             }/>     
