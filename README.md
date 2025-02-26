@@ -21,7 +21,7 @@
 ## Technologies Used
 - **React** - Component-based UI library for building user interfaces.
 - **Parcel** - Module bundler for building and running the project.
-
+- **MongoDB** - Movie data is preloaded and retrieved from mongodb
 ---
 
 ## Setup and Installation
